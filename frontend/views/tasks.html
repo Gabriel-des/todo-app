@@ -1,13 +1,46 @@
-<div ng-controller="TaskController as task">
-  <form ng-submit="task.add()">
-    <input ng-model="task.newTask.title" placeholder="Título" required>
-    <input ng-model="task.newTask.description" placeholder="Descrição">
-    <button type="submit">Adicionar</button>
+<div class="p-6 max-w-3xl mx-auto" ng-controller="TaskController as task">
+  <!-- Formulário de nova tarefa -->
+  <form ng-submit="task.add()" class="bg-white p-4 rounded-md shadow-md mb-6 flex flex-col gap-4">
+    <h2 class="text-lg font-semibold text-gray-700">Adicionar nova tarefa</h2>
+
+    <div class="flex flex-col sm:flex-row gap-4">
+      <input ng-model="task.newTask.title" placeholder="Título" required
+        class="flex-1 px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-400">
+
+      <input ng-model="task.newTask.description" placeholder="Descrição"
+        class="flex-1 px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-400">
+
+      <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition">
+        Adicionar
+      </button>
+    </div>
   </form>
 
-  <ul>
-    <li ng-repeat="t in task.tasks">
-      {{t.title}} — {{t.description}}
+  <!-- Lista de tarefas -->
+  <ul class="space-y-3">
+    <li ng-repeat="t in task.tasks"
+      class="flex items-center justify-between bg-white px-4 py-3 rounded-md shadow-sm border">
+
+      <!-- Conteúdo da tarefa -->
+      <div class="flex items-center gap-3">
+        <input type="checkbox" ng-model="t.completed" ng-change="task.changeStatus(t)"
+          class="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring focus:ring-blue-300">
+        <div>
+          <h3 class="font-medium text-gray-800" ng-class="{'line-through text-gray-400': t.completed}">
+            {{t.title}}
+          </h3>
+          <p class="text-sm text-gray-500" ng-class="{'line-through text-gray-300': t.completed}">
+            {{t.description}}
+          </p>
+        </div>
+      </div>
+      <button ng-click="task.delete(t)" class="text-red-500 hover:text-red-700 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
     </li>
   </ul>
+
 </div>

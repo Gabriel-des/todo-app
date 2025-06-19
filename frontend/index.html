@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <title>Todo App AngularJS</title>
 
+  <!-- Tailwind -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
   <!-- AngularJS e UI-Router -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
   <script src="https://unpkg.com/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
@@ -14,18 +17,18 @@
   <!-- Serviços -->
   <script src="services/authentication.service.js"></script>
   <script src="services/task.service.js"></script>
+  <script src="services/header.service.js"></script>
 
   <!-- Controladores -->
   <script src="controllers/auth.controller.js"></script>
   <script src="controllers/task.controller.js"></script>
+  <script src="controllers/header.controller.js"></script>
 </head>
 <body ng-app="todoApp">
 
-  <nav>
-    <a ui-sref="login">Entrar</a> |
-    <a ui-sref="register">Registrar</a> |
-    <a ui-sref="tasks">Tarefas</a>
-  </nav>
+  <div ng-if="isLoggedIn" ng-controller="HeaderController">
+    <ng-include src="'views/shared/header/header.html'"></ng-include>
+  </div>
 
   <div ui-view></div>
 

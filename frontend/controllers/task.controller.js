@@ -6,6 +6,8 @@
     var vm = this;
     vm.newTask = { title: "", description: "" };
     vm.tasks = [];
+    vm.isEditing = false;
+    vm.form = {};
 
     vm.load = function () {
       TaskService.getAll().then(function (res) {
@@ -21,10 +23,11 @@
       });
     };
 
-    vm.changeStatus = function (task) {
+    vm.updateTask = function (task) {
       TaskService.update(task).then(function () {
         console.log("Status atualizado com sucesso");
         vm.load();
+        vm.resetForm();
       });
     };
 
@@ -34,6 +37,20 @@
           vm.load();
         });
       }
+    };
+
+    vm.startEditing = function (task) {
+      vm.form = angular.copy(task);
+      vm.isEditing = true;
+    };
+
+    vm.cancelEdit = function () {
+      vm.resetForm();
+    };
+
+    vm.resetForm = function () {
+      vm.form = {};
+      vm.isEditing = false;
     };
 
     vm.load();

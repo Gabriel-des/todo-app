@@ -1,4 +1,6 @@
 (function () {
+  let requests = 0;
+  
   angular
     .module("todoApp", ["ui.router"])
     .constant("API_URL", "http://localhost:8000/api")
@@ -39,18 +41,30 @@
     $httpProvider.interceptors.push("AuthInterceptor");
   }
 
-  AuthInterceptor.$inject = ["$q", "$injector"];
-  function AuthInterceptor($q, $injector) {
+  AuthInterceptor.$inject = ["$q", "$injector", "$rootScope"];
+  function AuthInterceptor($q, $injector, $rootScope) {
+    function setLoading(value) {
+      $rootScope.loading = value;
+    }
+
     return {
       request: function (config) {
         var token = localStorage.getItem("jwtToken");
         if (token) {
           config.headers.Authorization = "Bearer " + token;
         }
+        requests++;
+        setLoading(true);
         return config;
       },
 
+      response: function (response) {
+        if (--requests === 0) setLoading(false);
+        return response;
+      },
+
       responseError: function (response) {
+        if (--requests === 0) setLoading(false);
         if (response.status === 401 || response.status === 403) {
           $injector.get("$state").go("login");
         }
@@ -62,6 +76,7 @@
   runBlock.$inject = ["$rootScope", "$transitions"];
   function runBlock($rootScope, $transitions) {
     $rootScope.isLoggedIn = !!localStorage.getItem("jwtToken");
+    $rootScope.loading = false;
 
     $transitions.onSuccess({}, function () {
       $rootScope.isLoggedIn = !!localStorage.getItem("jwtToken");

@@ -1,0 +1,8 @@
+<div class="login-container" ng-controller="AuthController as auth">
+  <form ng-submit="auth.login()">
+    <input type="email" ng-model="auth.credentials.email" placeholder="Email" required>
+    <input type="password" ng-model="auth.credentials.password" placeholder="Senha" required>
+    <button type="submit">Entrar</button>
+    <p ng-if="auth.error">{{auth.error}}</p>
+  </form>
+</div>

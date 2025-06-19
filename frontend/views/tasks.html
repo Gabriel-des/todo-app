@@ -1,0 +1,13 @@
+<div ng-controller="TaskController as task">
+  <form ng-submit="task.add()">
+    <input ng-model="task.newTask.title" placeholder="Título" required>
+    <input ng-model="task.newTask.description" placeholder="Descrição">
+    <button type="submit">Adicionar</button>
+  </form>
+
+  <ul>
+    <li ng-repeat="t in task.tasks">
+      {{t.title}} — {{t.description}}
+    </li>
+  </ul>
+</div>

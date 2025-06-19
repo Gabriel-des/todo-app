@@ -1,0 +1,51 @@
+version: '3.9'
+
+services:
+
+  db:
+    image: mysql:8.0
+    container_name: todo-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: todo
+      MYSQL_USER: todo
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: todo-backend
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: local
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: todo
+      DB_USERNAME: todo
+      DB_PASSWORD: secret
+      JWT_SECRET: your_jwt_secret_here
+    volumes:
+      - ./backend:/var/www
+
+  frontend:
+    image: nginx:alpine
+    container_name: todo-frontend
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+
+volumes:
+  dbdata:

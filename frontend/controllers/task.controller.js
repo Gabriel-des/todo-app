@@ -4,10 +4,9 @@
   TaskController.$inject = ["TaskService"];
   function TaskController(TaskService) {
     var vm = this;
-    vm.newTask = { title: "", description: "" };
+    vm.actualTask = { title: "", description: "" };
     vm.tasks = [];
     vm.isEditing = false;
-    vm.form = {};
 
     vm.load = function () {
       TaskService.getAll().then(function (res) {
@@ -16,9 +15,9 @@
     };
 
     vm.add = function () {
-      TaskService.create(vm.newTask).then(function () {
+      TaskService.create(vm.actualTask).then(function () {
         console.log("Tarefa criada com sucesso");
-        vm.newTask = {};
+        vm.actualTask = {};
         vm.load();
       });
     };
@@ -40,7 +39,7 @@
     };
 
     vm.startEditing = function (task) {
-      vm.form = angular.copy(task);
+      vm.actualTask = angular.copy(task);
       vm.isEditing = true;
     };
 
@@ -49,7 +48,7 @@
     };
 
     vm.resetForm = function () {
-      vm.form = {};
+      vm.actualTask = {};
       vm.isEditing = false;
     };
 

@@ -54,9 +54,9 @@ Edite `backend/.env` para garantir que as configurações de banco apontem para 
 DB_CONNECTION=mysql
 DB_HOST=db
 DB_PORT=3306
-DB_DATABASE=todo_db
-DB_USERNAME=todo_user
-DB_PASSWORD=secret_pass
+DB_DATABASE=todo
+DB_USERNAME=todo
+DB_PASSWORD=secret
 JWT_SECRET=
 ```
 
@@ -67,7 +67,7 @@ O campo `JWT_SECRET` será gerado automaticamente.
 Entre no shell do container do backend e execute os comandos:
 
 ```bash
-docker compose exec backend bash
+docker compose run --rm backend bash
 composer install --no-interaction --prefer-dist
 php artisan key:generate
 php artisan jwt:secret
@@ -82,12 +82,13 @@ Após isso, a API estará disponível em `http://localhost:8000/api`.
 O container frontend está configurado para servir diretamente o conteúdo estático. No entanto, se você adicionar dependências localmente (por exemplo, Tailwind ou pacotes npm), entre no container e instale:
 
 ```bash
-docker compose exec frontend bash
+cd frontend
 npm install
+npm run build
 exit
 ```
 
-Em seguida, acesse no navegador `http://localhost:5500` para usar a aplicação AngularJS.
+Em seguida, acesse no navegador `http://localhost:8080` para usar a aplicação AngularJS.
 
 ## Testes e Verificação
 

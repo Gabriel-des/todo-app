@@ -1,16 +1,16 @@
 <div class="p-6 max-w-3xl mx-auto" ng-controller="TaskController as task">
   <!-- Formulário de nova tarefa / edição -->
-  <form ng-submit="task.isEditing ? task.updateTask(task.form) : task.add()"
+  <form ng-submit="task.isEditing ? task.updateTask(task.actualTask) : task.add()"
     class="bg-white p-4 rounded-md shadow-md mb-6 flex flex-col gap-4">
     <h2 class="text-lg font-semibold text-gray-700">
       {{ task.isEditing ? 'Editar tarefa' : 'Adicionar nova tarefa' }}
     </h2>
 
     <div class="flex flex-col sm:flex-row gap-4">
-      <input ng-model="task.form.title" placeholder="Título" required
+      <input ng-model="task.actualTask.title" placeholder="Título" required
         class="flex-1 px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-400">
 
-      <input ng-model="task.form.description" placeholder="Descrição"
+      <input ng-model="task.actualTask.description" placeholder="Descrição"
         class="flex-1 px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-400">
 
       <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition">
